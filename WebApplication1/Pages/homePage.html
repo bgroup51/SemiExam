@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <title></title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> <!--W3Schools css-->
+    <!--Our css-->
     <style>
 
         body {
@@ -183,18 +184,18 @@
 
             console.log(user);
 
-         
+
 
             //Using POST through ajax call to add the object to the episode list
             api = "../api/Users"; //global var
-           
+
             ajaxCall("POST", api, JSON.stringify(user), postUSuccessCB, postUErrorCB);
 
             return false;
         }
 
         //Post user success
-        function postUSuccessCB() {   
+        function postUSuccessCB() {
             alert("Welcome to our website, " + user.Name + "!");
             window.location.href = "homePage.html";
         }
@@ -220,7 +221,7 @@
             delete user.Pass;
             localStorage.user = JSON.stringify(user);
             window.location.href = "insert.html";
-        //add user to localStorage
+            //add user to localStorage
         }
 
         //incorrect details - login failure
