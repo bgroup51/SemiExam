@@ -162,9 +162,62 @@ namespace WebApplication1.Models.DAL
 
             return cmd;
         }
+        
+        public List<User> GetUsersList()
+        {
+            SqlConnection con = null;
+            List<User> userList = new List<User>();
+            try
+            {
+                con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
-        //GET user while login --> check validity of password and email inserted
-        public User GetU(string mail, string password)
+                String selectSTR = "SELECT * FROM Users_2021";
+                SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+                // get a reader
+                SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+                User u = new User();
+
+                //Break in the end - suppose to return 1 or 0 rows
+                while (dr.Read())
+                {   // Read till the end of the data into a row
+                    u.Id = Convert.ToInt32(dr["id"]);
+                    u.Name = (string)dr["name"];
+                    u.Sername = (string)dr["sername"];
+                    u.Mail = (string)dr["email"];
+                    u.Phone = (string)dr["phone"];
+                    u.Gender = Convert.ToChar(dr["gender"]);
+                    u.BirthYear = Convert.ToInt32(dr["birth_year"]);
+                    u.FavGenre = (string)dr["fav_genre"];
+                    u.Address = (string)dr["address"];
+                    
+                   userList.Add(u);
+                    
+
+
+                }
+                return userList;
+
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
+
+            }
+
+        }
+    
+
+    //GET user while login --> check validity of password and email inserted
+    public User GetU(string mail, string password)
         {
             SqlConnection con = null;
 

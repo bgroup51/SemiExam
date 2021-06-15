@@ -10,16 +10,12 @@ namespace WebApplication1.Controllers
 {
     public class UsersController : ApiController
     {
-        // GET api/<controller>
-        /*
-         public IEnumerable<User> Get()
-         {
-             User u = new User();
-             List<User> users = u.Get();
-             return users;
-         }
-         */
 
+        public List<User> Get()
+        {
+            User o = new User();
+            return o.Read();
+        }
 
         public HttpResponseMessage Get(string mail, string password)
         {
