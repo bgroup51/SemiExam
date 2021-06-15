@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using WebApplication1.Models.DAL;
 
-
 namespace WebApplication1.Models
 {
     public class Episode
@@ -30,23 +29,15 @@ namespace WebApplication1.Models
 
         public int Insert()
         {
-            DataServices ds = new DataServices();
-            ds.Insert(this);
-            return 1; 
+            DataServices ds = new DataServices();  
+            return ds.Insert(this);
         }
+     
 
-        public List<Episode> Get()
+        public List<Episode> Get(int uId, int sId)
         {
             DataServices ds = new DataServices();
-            List<Episode> epList = ds.Get();
-            return epList;
-        }
-
-        public List<Episode> Get(string serName)
-        {
-            DataServices ds = new DataServices();
-            List<Episode> epList = ds.Get();
-            return epList;
+            return ds.GetEpPref(uId, sId);
         }
 
 

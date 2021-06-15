@@ -16,31 +16,6 @@ namespace WebApplication1.Models.DAL
         public SqlDataAdapter da;
         public DataTable dt;
 
-        // ---------------------------------------------------------------->
-        static List<Episode> episodeList;
-
-       public List<Episode> Get()
-        {
-            return episodeList;
-        }
-        /*
-        public List<Episode> Get(string serName)
-        {
-            List<Episode> filteredList = new List<Episode>();
-            if (episodeList == null)
-                episodeList = new List<Episode>();
-            else
-            {
-                foreach (Episode ep in episodeList)
-                {
-                    if (ep.SerName.Equals(serName))
-                        filteredList.Add(ep);
-                }
-            }
-            return filteredList;
-        }*/
-        // <------------------------------------------------------------------
-
 
         public SqlConnection connect(String conString)
         {
@@ -162,62 +137,9 @@ namespace WebApplication1.Models.DAL
 
             return cmd;
         }
-        
-        public List<User> GetUsersList()
-        {
-            SqlConnection con = null;
-            List<User> userList = new List<User>();
-            try
-            {
-                con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
-                String selectSTR = "SELECT * FROM Users_2021";
-                SqlCommand cmd = new SqlCommand(selectSTR, con);
-
-                // get a reader
-                SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
-                User u = new User();
-
-                //Break in the end - suppose to return 1 or 0 rows
-                while (dr.Read())
-                {   // Read till the end of the data into a row
-                    u.Id = Convert.ToInt32(dr["id"]);
-                    u.Name = (string)dr["name"];
-                    u.Sername = (string)dr["sername"];
-                    u.Mail = (string)dr["email"];
-                    u.Phone = (string)dr["phone"];
-                    u.Gender = Convert.ToChar(dr["gender"]);
-                    u.BirthYear = Convert.ToInt32(dr["birth_year"]);
-                    u.FavGenre = (string)dr["fav_genre"];
-                    u.Address = (string)dr["address"];
-                    
-                   userList.Add(u);
-                    
-
-
-                }
-                return userList;
-
-            }
-            catch (Exception ex)
-            {
-                // write to log
-                throw (ex);
-            }
-            finally
-            {
-                if (con != null)
-                {
-                    con.Close();
-                }
-
-            }
-
-        }
-    
-
-    //GET user while login --> check validity of password and email inserted
-    public User GetU(string mail, string password)
+        //GET user while login --> check validity of password and email inserted
+        public User GetU(string mail, string password)
         {
             SqlConnection con = null;
 
@@ -225,7 +147,7 @@ namespace WebApplication1.Models.DAL
             {
                 con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
-                String selectSTR = "SELECT U.id, U.name, U.sername, U.email, U.phone, U.gender, U.birth_year, U.fav_genre, U.address FROM Users_2021 U WHERE U.email LIKE '" + mail + "' AND U.password LIKE '" + password+"'";
+                String selectSTR = "SELECT U.id, U.name, U.sername, U.email, U.phone, U.gender, U.birth_year, U.fav_genre, U.address FROM Users_2021 U WHERE U.email LIKE '" + mail + "' AND U.password LIKE '" + password + "'";
                 SqlCommand cmd = new SqlCommand(selectSTR, con);
 
                 // get a reader
@@ -265,6 +187,99 @@ namespace WebApplication1.Models.DAL
             }
 
         }
+   
+        public List<Serie> GetSerPref(int uId)
+        {
+          
+            SqlConnection con = null;
+            List<Serie> serList = new List<Serie>();
+            try
+            {
+                con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+
+                String selectSTR = "SELECT DISTINCT S.id, S.name FROM Preferences_2021 P inner join Episodes_2021 E on P.id_ep = E.id inner join Series_2021 S on E.id_ser = S.id WHERE P.id_user = " + uId;
+                SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+                // get a reader
+                SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+
+                while (dr.Read())
+                {   // Read till the end of the data into a row
+                    Serie ser = new Serie();
+                    ser.Id = (int)(dr["id"]); 
+                    ser.Name = (string)(dr["name"]); 
+                    serList.Add(ser);    
+                }
+
+                return serList;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
+
+            }
+
+        }
+
+        public List<Episode> GetEpPref(int uId, int sId)
+        {
+
+            SqlConnection con = null;
+            List<Episode> episodeList = new List<Episode>();
+
+            try
+            {
+                con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+
+                String selectSTR = "SELECT E.* FROM Preferences_2021 P inner join Episodes_2021 E on P.id_ep = E.id inner join Series_2021 S on E.id_ser = S.id WHERE P.id_user =" + uId + " AND S.id = " + sId;
+                SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+                // get a reader
+                SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+
+                while (dr.Read())
+                {   // Read till the end of the data into a row
+                    Episode ep = new Episode();
+
+                  
+                   ep.Id = (int)(dr["id"]);
+                   ep.Id_ser = (int)(dr["id_ser"]);
+                   ep.EpName = (string)dr["name"];
+                   ep.SerName = (string)dr["sername"];
+                   ep.SeasonNum = Convert.ToInt32(dr["season_num"]);
+                   ep.Img = (string)dr["image"];
+                   ep.Description = (string)dr["description"];
+
+                    episodeList.Add(ep);
+                }
+
+                return episodeList;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
+
+            }
+
+        }
+
+  
     }
 
 }

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using WebApplication1.Models.DAL;
 
-
 namespace WebApplication1.Models
 {
     public class Serie
@@ -35,6 +34,12 @@ namespace WebApplication1.Models
             DataServices ds = new DataServices();
             ds.Insert(this);
             return 1;
+        }
+
+        public List<Serie> Get(int uId)
+        {
+            DataServices ds = new DataServices();
+            return ds.GetSerPref(uId);
         }
 
     }

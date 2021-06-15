@@ -11,16 +11,14 @@ namespace WebApplication1.Controllers
     public class SeriesController : ApiController
     {
         // GET api/<controller>
-        public IEnumerable<string> Get()
+        public IEnumerable<Serie> Get(int uId)
         {
-            return new string[] { "value1", "value2" };
+            Serie ser = new Serie();
+            return ser.Get(uId);
         }
 
         // GET api/<controller>/5
-        public string Get(int id)
-        {
-            return "value";
-        }
+      
 
         // POST api/<controller>
         public int Post([FromBody] Serie ser)
@@ -38,5 +36,7 @@ namespace WebApplication1.Controllers
         public void Delete(int id)
         {
         }
+
+     
     }
 }

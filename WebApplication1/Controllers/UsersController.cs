@@ -11,11 +11,6 @@ namespace WebApplication1.Controllers
     public class UsersController : ApiController
     {
 
-        public List<User> Get()
-        {
-            User o = new User();
-            return o.Read();
-        }
 
         public HttpResponseMessage Get(string mail, string password)
         {

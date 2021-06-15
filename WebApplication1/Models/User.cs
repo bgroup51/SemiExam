@@ -34,23 +34,16 @@ namespace WebApplication1.Models
         {
             DataServices ds = new DataServices();
             int numOfEffected = ds.Insert(this);
-            
+
             return numOfEffected;
         }
 
 
-        public User Get(string mail,string password)
+        public User Get(string mail, string password)
         {
             DataServices ds = new DataServices();
-            return ds.GetU(mail,password);
+            return ds.GetU(mail, password);
         }
 
-        public List<User> Read()
-        {
-
-            DataServices ds = new DataServices();
-            return ds.GetUsersList();
-
-        }
     }
 }

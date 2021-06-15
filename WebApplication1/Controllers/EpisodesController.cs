@@ -10,33 +10,19 @@ namespace WebApplication1.Models
     public class EpisodesController : ApiController
     {
         // GET api/<controller>
-        public IEnumerable<String> Get()
-        {
-            Episode ep = new Episode();
-            List<Episode> epList = ep.Get();
-            List<String> serList = new List<String>();
-            if (epList != null) {
-                foreach (Episode e in epList)
-                {
-                    if (!serList.Contains(e.SerName)) serList.Add(e.SerName);
-                }
-            }
-            return serList;
-        }
         
         // GET api/<controller>/5
-        public IEnumerable<Episode> Get(string serName)
+        public List<Episode> Get(int uId, int sId)
         {
             Episode ep = new Episode();
-            List<Episode> epList = ep.Get(serName);
-            return epList;
+            return ep.Get(uId, sId);
         }
 
         // POST api/<controller>
         public int Post([FromBody] Episode ep)
         {
-            ep.Insert();
-            return 1;
+          return ep.Insert();
+         
         }
 
         // PUT api/<controller>/5
