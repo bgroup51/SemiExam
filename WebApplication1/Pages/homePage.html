@@ -142,7 +142,7 @@
         $(document).ready(function () {
             if (localStorage.user != null) { //if a user exists in localStorage upload insert screen
                 user = JSON.parse(localStorage.user);
-                if (user.Mail == "admin@control.timdb") {
+                if (user.Mail == "admin@control.tmdb") {
                     window.location.href = "adminView.html";
                 }
                 else
@@ -223,7 +223,7 @@
             console.log(user);
             delete user.Pass;
             localStorage.user = JSON.stringify(user);
-            if (user.Mail == "admin@control.timdb") {
+            if (user.Mail == "admin@control.tmdb") {
                 window.location.href = "adminView.html";
             }
             else

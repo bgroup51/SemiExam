@@ -167,7 +167,6 @@ namespace WebApplication1.Models.DAL
                     u.FavGenre = (string)dr["fav_genre"];
                     u.Address = (string)dr["address"];
                     break;
-
                 }
                 return u;
 
@@ -187,10 +186,10 @@ namespace WebApplication1.Models.DAL
             }
 
         }
-   
+
         public List<Serie> GetSerPref(int uId)
         {
-          
+
             SqlConnection con = null;
             List<Serie> serList = new List<Serie>();
             try
@@ -206,9 +205,9 @@ namespace WebApplication1.Models.DAL
                 while (dr.Read())
                 {   // Read till the end of the data into a row
                     Serie ser = new Serie();
-                    ser.Id = (int)(dr["id"]); 
-                    ser.Name = (string)(dr["name"]); 
-                    serList.Add(ser);    
+                    ser.Id = (int)(dr["id"]);
+                    ser.Name = (string)(dr["name"]);
+                    serList.Add(ser);
                 }
 
                 return serList;
@@ -249,14 +248,14 @@ namespace WebApplication1.Models.DAL
                 {   // Read till the end of the data into a row
                     Episode ep = new Episode();
 
-                  
-                   ep.Id = (int)(dr["id"]);
-                   ep.Id_ser = (int)(dr["id_ser"]);
-                   ep.EpName = (string)dr["name"];
-                   ep.SerName = (string)dr["sername"];
-                   ep.SeasonNum = Convert.ToInt32(dr["season_num"]);
-                   ep.Img = (string)dr["image"];
-                   ep.Description = (string)dr["description"];
+
+                    ep.Id = (int)(dr["id"]);
+                    ep.Id_ser = (int)(dr["id_ser"]);
+                    ep.EpName = (string)dr["name"];
+                    ep.SerName = (string)dr["sername"];
+                    ep.SeasonNum = Convert.ToInt32(dr["season_num"]);
+                    ep.Img = (string)dr["image"];
+                    ep.Description = (string)dr["description"];
 
                     episodeList.Add(ep);
                 }
@@ -279,7 +278,56 @@ namespace WebApplication1.Models.DAL
 
         }
 
-  
+
+        //GET users List for admin
+        public List<User> GetUList()
+        {
+            SqlConnection con = null;
+
+            try
+            {
+                con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+
+                String selectSTR = "SELECT * FROM Users_2021";
+                SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+                // get a reader
+                SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+                List<User> uList = new List<User>();
+
+                //Break in the end - suppose to return 1 or 0 rows
+                while (dr.Read())
+                {   // Read till the end of the data into a row
+                    User u = new User();
+                    u.Id = Convert.ToInt32(dr["id"]);
+                    u.Name = (string)dr["name"];
+                    u.Sername = (string)dr["sername"];
+                    u.Mail = (string)dr["email"];
+                    u.Phone = (string)dr["phone"];
+                    u.Gender = Convert.ToChar(dr["gender"]);
+                    u.BirthYear = Convert.ToInt32(dr["birth_year"]);
+                    u.FavGenre = (string)dr["fav_genre"];
+                    u.Address = (string)dr["address"];
+                    uList.Add(u);
+                }
+                return uList;
+
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
+
+            }
+
+        }
     }
 
 }

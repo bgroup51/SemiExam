@@ -11,6 +11,11 @@ namespace WebApplication1.Controllers
     public class UsersController : ApiController
     {
 
+        public IEnumerable<User> Get()
+        {
+            User u = new User();
+            return u.GetUList();
+        }
 
         public HttpResponseMessage Get(string mail, string password)
         {
@@ -21,11 +26,6 @@ namespace WebApplication1.Controllers
             return Request.CreateResponse(HttpStatusCode.NotFound, "Email address or Password is incorrect");
         }
 
-        // GET api/<controller>/5
-        public string Get(int id)
-        {
-            return "value";
-        }
 
         // POST api/<controller>
         public HttpResponseMessage Post([FromBody] User user)

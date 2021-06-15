@@ -45,5 +45,11 @@ namespace WebApplication1.Models
             return ds.GetU(mail, password);
         }
 
+        public List<User> GetUList()
+        {
+            DataServices ds = new DataServices();
+            return ds.GetUList();
+
+        }
     }
 }

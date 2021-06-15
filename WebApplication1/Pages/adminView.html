@@ -3,11 +3,34 @@
 <head>
     <meta charset="utf-8" />
     <title></title>
+
     <style>
+        #welcome {
+            color: red;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            padding-left: 5px;
+            font-size: 15px;
+        }
+
+        #logout {
+        }
+
         #buttons {
-            text-align: center;
+            margin: 10px;
+            text-align: left;
+        }
+
+        #tbl {
+            margin-left: 10px;
+            margin-right: 10px;
+           
+        }
+
+        #usersData {
+            padding-top:5px;
         }
     </style>
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
@@ -27,7 +50,7 @@
             })
             tbl = "";
             loadUserTable();
-           
+
         })
 
         function loadUserTable() {
@@ -41,46 +64,48 @@
 
         function getUserSuccessCB(userList) {
             console.log(userList);
-       
-                try {
-                   
-                    tbl = $('#usersTable').DataTable({
-                        data: userList,
-                        pageLength: 5,
-                        columns: [
-                         
-                            { data: "Id" },
-                            { data: "Name" },
-                            { data: "Sername" },
-                            { data: "Mail" },
-                            { data: "Pass" },
-                            { data: "Phone" },
-                            { data: "Gender" },
-                            { data: "BirthYear" },
-                            { data: "FavGenre" },
-                            { data: "Address" },
-                        ],
-                    });
 
-                }
-                catch (err) {
-                    alert(err);
-                }
+            try {
+
+                tbl = $('#usersTable').DataTable({
+                    data: userList,
+                    pageLength: 5,
+                    columns: [
+
+                        { data: "Id" },
+                        { data: "Name" },
+                        { data: "Sername" },
+                        { data: "Mail" },
+                        { data: "Pass" },
+                        { data: "Phone" },
+                        { data: "Gender" },
+                        { data: "BirthYear" },
+                        { data: "FavGenre" },
+                        { data: "Address" },
+                    ],
+                });
+
             }
-        
+            catch (err) {
+                alert(err);
+            }
+        }
+
 
 
     </script>
 </head>
 <body>
     <div id="buttons">
-        <button id="logout">Logout</button><br />
+        <button id="logout">Logout</button>
+        <p id="welcome">Hello Admin</p>
     </div>
     <div id="tbl">
+        <h2 id="usersData">Users Data</h2>
         <table id="usersTable" class="display nowrap" style="width:100%">
             <thead>
                 <tr>
-                    
+
                     <th>Id</th>
                     <th>Name</th>
                     <th>SerName</th>
