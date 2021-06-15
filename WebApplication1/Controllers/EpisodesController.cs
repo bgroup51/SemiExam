@@ -10,9 +10,14 @@ namespace WebApplication1.Models
     public class EpisodesController : ApiController
     {
         // GET api/<controller>
-        
+        //public IEnumerable<Episode> Get()
+        //{
+        //    Episode ep = new Episode();
+        //    return ep.Get();
+        //}
+
         // GET api/<controller>/5
-        public List<Episode> Get(int uId, int sId)
+        public IEnumerable<Episode> Get(int uId, int sId)
         {
             Episode ep = new Episode();
             return ep.Get(uId, sId);
